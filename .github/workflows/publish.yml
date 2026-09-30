@@ -25,6 +25,8 @@ jobs:
       - name: Check out local path dependencies for development
         run: |
           git clone --depth 1 --branch release-prep https://github.com/socketry/bake-rust.git ../bake-rust
+          git clone --depth 1 --branch release-prep https://github.com/socketry/bake-cargo-rust.git ../bake-cargo-rust
+          git clone --depth 1 --branch release-prep https://github.com/socketry/bake-license-rust.git ../bake-license-rust
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt
@@ -144,6 +146,8 @@ jobs:
       - name: Check out local path dependencies for development
         run: |
           git clone --depth 1 --branch release-prep https://github.com/socketry/bake-rust.git ../bake-rust
+          git clone --depth 1 --branch release-prep https://github.com/socketry/bake-cargo-rust.git ../bake-cargo-rust
+          git clone --depth 1 --branch release-prep https://github.com/socketry/bake-license-rust.git ../bake-license-rust
       - uses: dtolnay/rust-toolchain@stable
       - name: Find workspace packages that need publishing
         id: packages
