@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add Bake Agent Context tasks to the project's development executable.
+- Link the shared Rust context guidance from the README.
+
 ## v0.2.0
 
 - Keep this crate focused on release-document extraction and editing; GitHub Release creation now lives in `bake-cargo`.
