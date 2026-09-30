@@ -1,7 +1,9 @@
+// Released under the MIT License.
+// Copyright, 2026, by Samuel Williams.
+
 //! Reusable release-document tasks, inspired by Samuel Williams's Ruby
 //! `bake-releases`: <https://github.com/ioquatix/bake-releases> (MIT).
 //! This implementation preserves Markdown bytes rather than re-rendering them.
-
 mod document;
 
 pub use document::{extract_notes, update_document};

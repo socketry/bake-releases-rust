@@ -16,12 +16,9 @@ bake::Registry::discover()?.run()
 No per-task registration calls are needed. `#[bake::task]` functions in the
 library are collected by `Registry::discover()`.
 
-When working from this repository, check out
-[bake-rust](https://github.com/socketry/bake-rust) beside it as `../bake-rust`.
-The path dependency uses the matching registry version when this crate is published.
 The task executable also links Bake Agent Context. Run
 `cargo bake agent:context:install` to install context from dependencies such as
-`socketry-bake`; generated `.agents/context/` files are ignored by Git. Shared
+`bake`; generated `.agents/context/` files are ignored by Git. Shared
 Rust guidance lives in [Bake Agent Context](https://github.com/socketry/bake-agent-context-rust/blob/main/context/rust.md).
 
 ```sh
