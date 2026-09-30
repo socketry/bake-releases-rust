@@ -25,14 +25,10 @@ Follow the shared [Socketry Rust conventions](https://github.com/socketry/bake-r
 cargo bake releases:notes Unreleased
 cargo bake releases:update v0.1.0
 cargo bake releases:notes v0.1.0 --path releases.md
-cargo bake releases:github:release v0.1.0 --draft true
 ```
 
-`releases:github:release` creates a GitHub Release from the matching heading in
-the release document. It requires `gh` to be installed and authenticated, and
-requires the tag to already exist on the remote. The task verifies the tag and
-creates a draft when `--draft true` is supplied; without that option it publishes
-the release immediately.
+This crate only manages the Markdown release document. Cargo publication and
+GitHub release creation are provided by [Bake Cargo](https://github.com/socketry/bake-cargo-rust).
 
 ## Document format
 
@@ -54,6 +50,5 @@ Existing symlinks are followed. As with other file editors, concurrent external
 edits are not merged and replacing a file changes its identity for hard links.
 
 These tasks do not modify Cargo versions, create a new Unreleased section, commit,
-tag, or publish crates. The GitHub release task is an explicit operation that
-publishes a GitHub Release unless `--draft true` is supplied. The pure
-extract_notes and update_document functions are also available for direct library use.
+tag, or publish releases. The pure `extract_notes` and `update_document` functions
+are also available for direct library use.
