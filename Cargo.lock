@@ -3,6 +3,23 @@
 version = 4
 
 [[package]]
+name = "bake-macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.119",
+]
+
+[[package]]
+name = "bake-releases"
+version = "0.1.0"
+dependencies = [
+ "socketry-bake",
+ "tempfile",
+]
+
+[[package]]
 name = "bitflags"
 version = "2.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -175,27 +192,10 @@ dependencies = [
 name = "socketry-bake"
 version = "0.1.0"
 dependencies = [
+ "bake-macros",
  "linkme",
  "serde",
  "serde_json",
- "socketry-bake-macros",
-]
-
-[[package]]
-name = "socketry-bake-macros"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.119",
-]
-
-[[package]]
-name = "socketry-bake-releases"
-version = "0.1.0"
-dependencies = [
- "socketry-bake",
- "tempfile",
 ]
 
 [[package]]

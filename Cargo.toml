@@ -1,5 +1,5 @@
 [package]
-name = "socketry-bake-releases"
+name = "bake-releases"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
