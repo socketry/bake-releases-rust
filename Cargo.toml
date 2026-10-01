@@ -1,6 +1,6 @@
 [package]
 name = "bake-releases"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/socketry/bake-releases-rust"
@@ -22,6 +22,7 @@ reviewers = ["socketry/managers"]
 name = "bake_releases"
 
 [dependencies]
+socketry-markdown = "0.1.0"
 bake = "0.17.0"
 tempfile = "3.27"
 

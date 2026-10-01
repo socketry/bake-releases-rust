@@ -9,4 +9,4 @@ bake = "0.17.0"
 bake-agent-context = { version = "0.1.1" }
 bake_cargo = { package = "bake-cargo", version = "0.2.4" }
 bake_license = { package = "bake-license", version = "0.1.1" }
-bake_releases = { package = "bake-releases", version = "0.2.2", path = ".." }
+bake_releases = { package = "bake-releases", version = "0.2.3", path = ".." }

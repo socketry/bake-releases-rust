@@ -1,5 +1,9 @@
 # Releases
 
+## v0.2.3
+
+- Extract and update release sections using parsed Markdown headings.
+
 ## v0.2.2
 
 - Create or update GitHub Releases after successful crates.io publication.
