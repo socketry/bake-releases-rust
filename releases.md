@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.2.3
 
 - Extract and update release sections using parsed Markdown headings.
 
