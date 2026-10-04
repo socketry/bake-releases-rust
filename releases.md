@@ -1,5 +1,10 @@
 # Releases
 
+## Unreleased
+
+- Remove the redundant `bake_releases::releases` module; task adapters are now
+  available at the crate root.
+
 ## v0.2.4
 
 - Declare compatibility with the Bake 0.x API so task libraries can share one task registry
