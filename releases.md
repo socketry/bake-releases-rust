@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.3.0
 
 - Remove the redundant `bake_releases::releases` module; task adapters are now
   available at the crate root.
