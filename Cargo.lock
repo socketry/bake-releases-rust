@@ -19,9 +19,9 @@ dependencies = [
 
 [[package]]
 name = "bake"
-version = "0.17.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9eb0935384477dcff54df7fc3145427aaed736caa55eec674a89093096f40df7"
+checksum = "cbed34a1e40a3a5893a12c47de45006de3ae53112db64c0919a6e49c1a38d7e0"
 dependencies = [
  "bake-macros",
  "linkme",
@@ -31,9 +31,9 @@ dependencies = [
 
 [[package]]
 name = "bake-agent-context"
-version = "0.2.1"
+version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22477c95d0a8f746a57d5044e8e9fcb45827c08a5dc0b5b353473e236aeeffa9"
+checksum = "92043e5abb0627f904bd863b397f86fa1fe0ff25a9a71150fd5663b587fa5bd5"
 dependencies = [
  "bake",
  "serde",
@@ -44,15 +44,16 @@ dependencies = [
 
 [[package]]
 name = "bake-cargo"
-version = "0.2.4"
+version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5cee1ca7bf582ae8cc5ecc44123b2d32378a3f69b52df11063cc876b6ae36bcb"
+checksum = "becb50242676154a68805b9631b46c49d846c042e9b1017761fa50dd7a989914"
 dependencies = [
  "bake",
  "bake-license",
  "bake-releases",
  "serde",
  "serde_json",
+ "socketry-markdown",
  "tempfile",
  "toml_edit",
  "ureq",
@@ -60,19 +61,20 @@ dependencies = [
 
 [[package]]
 name = "bake-license"
-version = "0.1.1"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11feb33128721729f6d5b4f89e7a01d2dc84b658a6232a550f4e10db4e2ab990"
+checksum = "16edcf8dc68967ffdf25192109ad1058e7b4c1d56a5b2fd9c98b97156df33882"
 dependencies = [
  "bake",
+ "socketry-markdown",
  "tempfile",
 ]
 
 [[package]]
 name = "bake-macros"
-version = "0.17.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d61e078d4ef38e2ba1f5218792234621fe10c75e175dd30ca82d7d91e7b91ef"
+checksum = "5b801275922e3bbc727ecdbb809f1a82591744cad907c9e915bdfa9b28bf001f"
 dependencies = [
  "proc-macro2",
  "quote",
