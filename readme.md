@@ -16,11 +16,6 @@ bake::Registry::discover()?.run()
 No per-task registration calls are needed. `#[bake::task]` functions in the
 library are collected by `Registry::discover()`.
 
-The task executable also links Bake Agent Context. Run
-`cargo bake agent:context:install` to install context from dependencies such as
-`bake`; generated `.agents/context/` files are ignored by Git. Shared
-Rust guidance lives in [Bake Agent Context](https://github.com/socketry/bake-agent-context-rust/blob/main/context/rust.md).
-
 ```sh
 cargo bake releases:notes Unreleased
 cargo bake releases:update v0.1.0
@@ -76,3 +71,17 @@ See [releases.md](releases.md) for the full release history.
 ## See Also
 
 - [bake-releases](https://github.com/socketry/bake-releases-rust) — Reusable releases.md tasks for Bake <!-- bake-readme:package -->
+
+## Contributing
+
+Please open an issue or pull request on
+[GitHub](https://github.com/socketry/bake-releases-rust).
+
+### Agent Context
+
+Run `cargo bake agent:context:install` to install shared context and skills.
+Read `.agents/context/index.md` to find relevant guides, follow `agents.md` if
+present, and apply skills under `.agents/skills/`. See the [Agent Context guide]
+for guidance on package context and repository-only instructions.
+
+[Agent Context guide]: https://github.com/socketry/bake-agent-context-rust/blob/main/context/agent-context.md

@@ -1,5 +1,9 @@
 # Releases
 
+## Unreleased
+
+- Document shared agent context setup and contribution guidance.
+
 ## v0.3.1
 
 - Require Bake 0.18.0 for the shared task registry.
