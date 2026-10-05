@@ -13,11 +13,6 @@ use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
-fn parent_directory(path: &Path) -> Result<&Path> {
-    path.parent()
-        .ok_or_else(|| Error::new("release document has no parent directory"))
-}
-
 fn persist_file(temporary: tempfile::NamedTempFile, path: &Path) -> Result<()> {
     temporary
         .persist(path)
@@ -52,7 +47,7 @@ pub fn update(
     let path = context.root().join(path).canonicalize()?;
     let document = fs::read_to_string(&path)?;
     let updated = update_document(&document, &version)?;
-    let directory = parent_directory(&path)?;
+    let directory = path.parent().unwrap_or(path.as_path());
     let mut temporary = tempfile::NamedTempFile::new_in(directory)?;
     temporary.write_all(updated.as_bytes())?;
     temporary
@@ -66,11 +61,6 @@ pub fn update(
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn parent_directory_requires_a_path_parent() {
-        assert!(parent_directory(Path::new("/")).is_err());
-    }
 
     #[test]
     fn persist_file_reports_a_missing_destination_directory() {
