@@ -58,6 +58,10 @@ are also available for direct library use.
 <!-- bake-readme:releases:start -->
 See [releases.md](releases.md) for the full release history.
 
+### v0.3.1
+
+- Require Bake 0.18.0 for the shared task registry.
+
 ### v0.3.0
 
 - Remove the redundant `bake_releases::releases` module; task adapters are now
@@ -67,10 +71,6 @@ See [releases.md](releases.md) for the full release history.
 
 - Declare compatibility with the Bake 0.x API so task libraries can share one task registry
   when upgrading to crate-derived task namespaces.
-
-### v0.2.3
-
-- Extract and update release sections using parsed Markdown headings.
 <!-- bake-readme:releases:end -->
 
 ## See Also

@@ -50,7 +50,7 @@ checksum = "ddad3c2027b3e69bbee137e5c3799755232d85ef4503f7f0c525c1ca1f211369"
 dependencies = [
  "bake",
  "bake-license",
- "bake-releases 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "bake-releases 0.3.0",
  "serde",
  "serde_json",
  "socketry-markdown",
@@ -96,6 +96,8 @@ dependencies = [
 [[package]]
 name = "bake-releases"
 version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8439a25fe3a3192a666570d3d907cfb5bff8fdb5df17c92e495bcd4132ce0283"
 dependencies = [
  "bake",
  "socketry-markdown",
@@ -104,9 +106,7 @@ dependencies = [
 
 [[package]]
 name = "bake-releases"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8439a25fe3a3192a666570d3d907cfb5bff8fdb5df17c92e495bcd4132ce0283"
+version = "0.3.1"
 dependencies = [
  "bake",
  "socketry-markdown",
@@ -674,7 +674,7 @@ dependencies = [
  "bake-cargo",
  "bake-license",
  "bake-readme",
- "bake-releases 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "bake-releases 0.3.0",
  "bake-test-rust",
 ]
 

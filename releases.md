@@ -1,5 +1,9 @@
 # Releases
 
+## v0.3.1
+
+- Require Bake 0.18.0 for the shared task registry.
+
 ## v0.3.0
 
 - Remove the redundant `bake_releases::releases` module; task adapters are now
