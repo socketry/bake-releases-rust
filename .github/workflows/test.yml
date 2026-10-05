@@ -27,3 +27,6 @@ jobs:
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
       - name: Run tests and require complete line coverage
         run: cargo bake --locked test:coverage --all-targets true
+      - name: Show missing coverage lines
+        if: failure()
+        run: cargo llvm-cov report --text --show-missing-lines
