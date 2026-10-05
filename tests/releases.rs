@@ -38,9 +38,16 @@ fn headings_are_exact_unique_and_unindented() {
     assert!(extract_notes("## v1.0.0\nHi\n", "1.0.0").is_err());
     assert!(extract_notes("## v1\nFirst\n## v1\nSecond\n", "v1").is_err());
     assert!(extract_notes("    ## v1\n", "v1").is_err());
+    assert!(extract_notes("  ## v1\n", "v1").is_err());
+    assert!(extract_notes("Title\n-----\n", "Title").is_err());
     assert!(extract_notes("##v1\n", "v1").is_err());
     assert_eq!(extract_notes("## v1 ###\nHi", "v1").unwrap(), "Hi");
     assert_eq!(extract_notes("## v1", "v1").unwrap(), "");
+}
+
+#[test]
+fn updates_reject_formatted_unreleased_titles() {
+    assert!(update_document("## **Unreleased**\n", "v1").is_err());
 }
 
 #[test]
@@ -93,4 +100,35 @@ fn tasks_read_and_update_a_custom_document_under_project_root() {
             .is_err()
     );
     assert_eq!(fs::read(&path).unwrap(), updated);
+}
+
+#[test]
+fn tasks_report_missing_files_and_release_headings() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("changes.md");
+    fs::write(&path, "# Releases\nNo release headings yet.\n").unwrap();
+    fs::write(directory.path().join("invalid.md"), [0xff]).unwrap();
+    let registry = bake::Registry::discover().unwrap();
+    let mut context = registry.context(directory.path());
+
+    assert!(
+        context
+            .call("releases:notes", &["v1", "--path", "missing.md"])
+            .is_err()
+    );
+    assert!(
+        context
+            .call("releases:update", &["v1", "--path", "missing.md"])
+            .is_err()
+    );
+    assert!(
+        context
+            .call("releases:update", &["v1", "--path", "invalid.md"])
+            .is_err()
+    );
+    assert!(
+        context
+            .call("releases:notes", &["v1", "--path", "changes.md"])
+            .is_err()
+    );
 }
