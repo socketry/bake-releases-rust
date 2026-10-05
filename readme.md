@@ -1,13 +1,15 @@
-# Bake Releases
+# `bake-releases`
 
 Reusable releases.md tasks for Bake, inspired by Samuel Williams's [Ruby bake-releases](https://github.com/ioquatix/bake-releases) (MIT).
 
-The task functions live under the `releases` module, which becomes the task namespace. Add this crate as a dependency and reference it from the task binary so Rust links its registration entries:
+## Usage
 
-```rust,ignore
-use bake_releases as _;
+The task functions are exported from the crate root and register beneath `releases`. Add the dependency to the private task binary and regenerate its links:
 
-bake::Registry::discover()?.run()
+```sh
+cargo bake --regenerate
+cargo add --manifest-path bake/Cargo.toml bake-releases
+cargo bake --regenerate
 ```
 
 No per-task registration calls are needed. `#[bake::task]` functions in the library are collected by `Registry::discover()`.
@@ -29,6 +31,10 @@ notes returns the body beneath the selected heading until the next heading of th
 update renames exactly one Unreleased heading. It rejects an existing release heading, missing/duplicate Unreleased sections, and invalid multiline titles. The rest of the file is preserved. A temporary file in the same directory is written and synchronized before replacing the original, preserving file permissions. Existing symlinks are followed. As with other file editors, concurrent external edits are not merged and replacing a file changes its identity for hard links.
 
 These tasks do not modify Cargo versions, create a new Unreleased section, commit, tag, or publish releases. The pure `extract_notes` and `update_document` functions are also available for direct library use.
+
+## Releasing
+
+Prepare a release with `cargo bake cargo:version:patch` (or `minor`, `major`, or `bump --version X.Y.Z`), then run `cargo bake cargo:release` and open a pull request. After review and merge, GitHub Actions publishes the release when the configured `crates-io` environment approves it. Follow the shared [Releasing skill](https://github.com/socketry/socketry-project-rust/blob/main/context/releasing.md) for the standard process.
 
 ## Releases
 
@@ -54,6 +60,11 @@ See [releases.md](releases.md) for the full release history.
 - Require Bake 0.18.0 for the shared task registry.
 
 <!-- bake-readme:releases:end -->
+
+## See Also
+
+- [`bake`](https://github.com/socketry/bake-rust).
+- [`bake-cargo`](https://github.com/socketry/bake-cargo-rust).
 
 ## Contributing
 
