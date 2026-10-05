@@ -101,3 +101,34 @@ fn tasks_read_and_update_a_custom_document_under_project_root() {
     );
     assert_eq!(fs::read(&path).unwrap(), updated);
 }
+
+#[test]
+fn tasks_report_missing_files_and_release_headings() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("changes.md");
+    fs::write(&path, "# Releases\nNo release headings yet.\n").unwrap();
+    fs::write(directory.path().join("invalid.md"), [0xff]).unwrap();
+    let registry = bake::Registry::discover().unwrap();
+    let mut context = registry.context(directory.path());
+
+    assert!(
+        context
+            .call("releases:notes", &["v1", "--path", "missing.md"])
+            .is_err()
+    );
+    assert!(
+        context
+            .call("releases:update", &["v1", "--path", "missing.md"])
+            .is_err()
+    );
+    assert!(
+        context
+            .call("releases:update", &["v1", "--path", "invalid.md"])
+            .is_err()
+    );
+    assert!(
+        context
+            .call("releases:notes", &["v1", "--path", "changes.md"])
+            .is_err()
+    );
+}
