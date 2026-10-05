@@ -1,13 +1,15 @@
-# Bake Releases
+# `bake-releases`
 
 Reusable releases.md tasks for Bake, inspired by Samuel Williams's [Ruby bake-releases](https://github.com/ioquatix/bake-releases) (MIT).
 
-The task functions live under the `releases` module, which becomes the task namespace. Add this crate as a dependency and reference it from the task binary so Rust links its registration entries:
+## Usage
 
-```rust,ignore
-use bake_releases as _;
+The task functions are exported from the crate root and register beneath `releases`. Add the dependency to the private task binary and regenerate its links:
 
-bake::Registry::discover()?.run()
+```sh
+cargo bake --regenerate
+cargo add --manifest-path bake/Cargo.toml bake-releases
+cargo bake --regenerate
 ```
 
 No per-task registration calls are needed. `#[bake::task]` functions in the library are collected by `Registry::discover()`.
@@ -30,11 +32,19 @@ update renames exactly one Unreleased heading. It rejects an existing release he
 
 These tasks do not modify Cargo versions, create a new Unreleased section, commit, tag, or publish releases. The pure `extract_notes` and `update_document` functions are also available for direct library use.
 
+## Releasing
+
+Prepare a release with `cargo bake cargo:version:patch` (or `minor`, `major`, or `bump --version X.Y.Z`), then run `cargo bake cargo:release` and open a pull request. After review and merge, GitHub Actions publishes the release when the configured `crates-io` environment approves it. Follow the shared [Releasing skill](https://github.com/socketry/socketry-project-rust/blob/main/context/releasing.md) for the standard process.
+
 ## Releases
 
 <!-- bake-readme:releases:start -->
 
 See [releases.md](releases.md) for the full release history.
+
+### v0.3.4
+
+- Clarify root task exports, installation, and the shared release process.
 
 ### v0.3.3
 
@@ -49,11 +59,12 @@ See [releases.md](releases.md) for the full release history.
 - Require Bake 0.18 or newer so task libraries share their project's active task registry.
 - Document shared agent context setup and contribution guidance.
 
-### v0.3.1
-
-- Require Bake 0.18.0 for the shared task registry.
-
 <!-- bake-readme:releases:end -->
+
+## See Also
+
+- [`bake`](https://github.com/socketry/bake-rust).
+- [`bake-cargo`](https://github.com/socketry/bake-cargo-rust).
 
 ## Contributing
 

@@ -1,5 +1,9 @@
 # Releases
 
+## v0.3.4
+
+- Clarify root task exports, installation, and the shared release process.
+
 ## v0.3.3
 
 - Resolve development task dependencies to the current checkout.
