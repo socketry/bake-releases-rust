@@ -1,7 +1,9 @@
 # Releases
 
-## Unreleased
+## v0.3.2
 
+- Require Bake 0.18 or newer so task libraries share their project's active
+  task registry.
 - Document shared agent context setup and contribution guidance.
 
 ## v0.3.1

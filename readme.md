@@ -53,6 +53,12 @@ are also available for direct library use.
 <!-- bake-readme:releases:start -->
 See [releases.md](releases.md) for the full release history.
 
+### v0.3.2
+
+- Require Bake 0.18 or newer so task libraries share their project's active
+  task registry.
+- Document shared agent context setup and contribution guidance.
+
 ### v0.3.1
 
 - Require Bake 0.18.0 for the shared task registry.
@@ -61,16 +67,7 @@ See [releases.md](releases.md) for the full release history.
 
 - Remove the redundant `bake_releases::releases` module; task adapters are now
   available at the crate root.
-
-### v0.2.4
-
-- Declare compatibility with the Bake 0.x API so task libraries can share one task registry
-  when upgrading to crate-derived task namespaces.
 <!-- bake-readme:releases:end -->
-
-## See Also
-
-- [bake-releases](https://github.com/socketry/bake-releases-rust) — Reusable releases.md tasks for Bake <!-- bake-readme:package -->
 
 ## Contributing
 
