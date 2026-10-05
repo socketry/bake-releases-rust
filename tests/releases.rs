@@ -38,9 +38,16 @@ fn headings_are_exact_unique_and_unindented() {
     assert!(extract_notes("## v1.0.0\nHi\n", "1.0.0").is_err());
     assert!(extract_notes("## v1\nFirst\n## v1\nSecond\n", "v1").is_err());
     assert!(extract_notes("    ## v1\n", "v1").is_err());
+    assert!(extract_notes("  ## v1\n", "v1").is_err());
+    assert!(extract_notes("Title\n-----\n", "Title").is_err());
     assert!(extract_notes("##v1\n", "v1").is_err());
     assert_eq!(extract_notes("## v1 ###\nHi", "v1").unwrap(), "Hi");
     assert_eq!(extract_notes("## v1", "v1").unwrap(), "");
+}
+
+#[test]
+fn updates_reject_formatted_unreleased_titles() {
+    assert!(update_document("## **Unreleased**\n", "v1").is_err());
 }
 
 #[test]

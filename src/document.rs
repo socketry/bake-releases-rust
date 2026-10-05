@@ -14,9 +14,7 @@ struct Heading {
 }
 
 fn after_heading_line(document: &str, offset: usize) -> usize {
-    let Some(rest) = document.get(offset..) else {
-        return offset;
-    };
+    let rest = document.get(offset..).unwrap_or_default();
 
     if rest.starts_with("\r\n") {
         offset + 2
@@ -27,10 +25,10 @@ fn after_heading_line(document: &str, offset: usize) -> usize {
     }
 }
 
-fn plain_title_range(document: &str, node: &Node) -> Option<Range<usize>> {
-    let Node::Heading(heading) = node else {
-        return None;
-    };
+fn plain_title_range(
+    document: &str,
+    heading: &socketry_markdown::mdast::Heading,
+) -> Option<Range<usize>> {
     let [Node::Text(text)] = heading.children.as_slice() else {
         return None;
     };
@@ -44,6 +42,32 @@ fn plain_title_range(document: &str, node: &Node) -> Option<Range<usize>> {
     }
     let range = position.start.offset..end;
     (document.get(range.clone())? == title).then_some(range)
+}
+
+fn heading_from_node(document: &str, node: &Node) -> Option<Heading> {
+    let Node::Heading(heading) = node else {
+        return None;
+    };
+    let position = heading.position.as_ref()?;
+    let start = position.start.offset;
+
+    // Replacements operate on single-line ATX release headings. The parser
+    // has already distinguished headings from fences and other Markdown.
+    if position.start.column != 1
+        || !document
+            .get(start..)
+            .is_some_and(|rest| rest.starts_with('#'))
+    {
+        return None;
+    }
+
+    Some(Heading {
+        level: heading.depth,
+        title: chomp_line_ending(&node.text_content()).to_owned(),
+        title_range: plain_title_range(document, heading),
+        start,
+        body_start: after_heading_line(document, position.end.offset),
+    })
 }
 
 fn chomp_line_ending(text: &str) -> &str {
@@ -64,34 +88,62 @@ fn headings(document: &str) -> Result<Vec<Heading>> {
     let mut headings = Vec::new();
 
     for node in children {
-        let Node::Heading(heading) = node else {
-            continue;
-        };
-        let Some(position) = heading.position.as_ref() else {
-            continue;
-        };
-        let start = position.start.offset;
-
-        // Replacements operate on single-line ATX release headings. The parser
-        // has already distinguished headings from fences and other Markdown.
-        if position.start.column != 1
-            || !document
-                .get(start..)
-                .is_some_and(|rest| rest.starts_with('#'))
-        {
-            continue;
+        if let Some(heading) = heading_from_node(document, node) {
+            headings.push(heading);
         }
-
-        headings.push(Heading {
-            level: heading.depth,
-            title: chomp_line_ending(&node.text_content()).to_owned(),
-            title_range: plain_title_range(document, node),
-            start,
-            body_start: after_heading_line(document, position.end.offset),
-        });
     }
 
     Ok(headings)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use socketry_markdown::{
+        mdast::{Heading as MarkdownHeading, Text},
+        unist::Position,
+    };
+
+    #[test]
+    fn heading_line_offsets_cover_line_endings_and_invalid_offsets() {
+        assert_eq!(after_heading_line("text\r\n", 4), 6);
+        assert_eq!(after_heading_line("text\r", 4), 5);
+        assert_eq!(after_heading_line("text\n", 4), 5);
+        assert_eq!(after_heading_line("text", 10), 10);
+    }
+
+    #[test]
+    fn title_ranges_chomp_line_endings() {
+        for ending in ["\r\n", "\r", "\n"] {
+            let value = format!("title{ending}");
+            let document = value.clone();
+            let end_offset = value.len();
+            let heading = MarkdownHeading {
+                children: vec![Node::Text(Text {
+                    value,
+                    position: Some(Position::new(1, 1, 0, 2, 1, end_offset)),
+                })],
+                position: None,
+                depth: 2,
+            };
+
+            assert_eq!(plain_title_range(&document, &heading), Some(0..5));
+        }
+    }
+
+    #[test]
+    fn headings_without_positions_are_ignored() {
+        let node = Node::Heading(MarkdownHeading {
+            children: vec![Node::Text(Text {
+                value: "Unreleased".into(),
+                position: None,
+            })],
+            position: None,
+            depth: 2,
+        });
+
+        assert!(heading_from_node("## Unreleased\n", &node).is_none());
+    }
 }
 
 fn unique_heading<'headings>(
