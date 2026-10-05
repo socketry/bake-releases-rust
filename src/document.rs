@@ -96,56 +96,6 @@ fn headings(document: &str) -> Result<Vec<Heading>> {
     Ok(headings)
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use socketry_markdown::{
-        mdast::{Heading as MarkdownHeading, Text},
-        unist::Position,
-    };
-
-    #[test]
-    fn heading_line_offsets_cover_line_endings_and_invalid_offsets() {
-        assert_eq!(after_heading_line("text\r\n", 4), 6);
-        assert_eq!(after_heading_line("text\r", 4), 5);
-        assert_eq!(after_heading_line("text\n", 4), 5);
-        assert_eq!(after_heading_line("text", 10), 10);
-    }
-
-    #[test]
-    fn title_ranges_chomp_line_endings() {
-        for ending in ["\r\n", "\r", "\n"] {
-            let value = format!("title{ending}");
-            let document = value.clone();
-            let end_offset = value.len();
-            let heading = MarkdownHeading {
-                children: vec![Node::Text(Text {
-                    value,
-                    position: Some(Position::new(1, 1, 0, 2, 1, end_offset)),
-                })],
-                position: None,
-                depth: 2,
-            };
-
-            assert_eq!(plain_title_range(&document, &heading), Some(0..5));
-        }
-    }
-
-    #[test]
-    fn headings_without_positions_are_ignored() {
-        let node = Node::Heading(MarkdownHeading {
-            children: vec![Node::Text(Text {
-                value: "Unreleased".into(),
-                position: None,
-            })],
-            position: None,
-            depth: 2,
-        });
-
-        assert!(heading_from_node("## Unreleased\n", &node).is_none());
-    }
-}
-
 fn unique_heading<'headings>(
     headings: &'headings [Heading],
     title: &str,
@@ -204,4 +154,54 @@ pub fn update_document(document: &str, version: &str) -> Result<String> {
     let mut output = document.to_owned();
     output.replace_range(title_range.clone(), version);
     Ok(output)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use socketry_markdown::{
+        mdast::{Heading as MarkdownHeading, Text},
+        unist::Position,
+    };
+
+    #[test]
+    fn heading_line_offsets_cover_line_endings_and_invalid_offsets() {
+        assert_eq!(after_heading_line("text\r\n", 4), 6);
+        assert_eq!(after_heading_line("text\r", 4), 5);
+        assert_eq!(after_heading_line("text\n", 4), 5);
+        assert_eq!(after_heading_line("text", 10), 10);
+    }
+
+    #[test]
+    fn title_ranges_chomp_line_endings() {
+        for ending in ["\r\n", "\r", "\n"] {
+            let value = format!("title{ending}");
+            let document = value.clone();
+            let end_offset = value.len();
+            let heading = MarkdownHeading {
+                children: vec![Node::Text(Text {
+                    value,
+                    position: Some(Position::new(1, 1, 0, 2, 1, end_offset)),
+                })],
+                position: None,
+                depth: 2,
+            };
+
+            assert_eq!(plain_title_range(&document, &heading), Some(0..5));
+        }
+    }
+
+    #[test]
+    fn headings_without_positions_are_ignored() {
+        let node = Node::Heading(MarkdownHeading {
+            children: vec![Node::Text(Text {
+                value: "Unreleased".into(),
+                position: None,
+            })],
+            position: None,
+            depth: 2,
+        });
+
+        assert!(heading_from_node("## Unreleased\n", &node).is_none());
+    }
 }
