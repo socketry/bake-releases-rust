@@ -52,3 +52,27 @@ edits are not merged and replacing a file changes its identity for hard links.
 These tasks do not modify Cargo versions, create a new Unreleased section, commit,
 tag, or publish releases. The pure `extract_notes` and `update_document` functions
 are also available for direct library use.
+
+## Releases
+
+<!-- bake-readme:releases:start -->
+See [releases.md](releases.md) for the full release history.
+
+### v0.3.0
+
+- Remove the redundant `bake_releases::releases` module; task adapters are now
+  available at the crate root.
+
+### v0.2.4
+
+- Declare compatibility with the Bake 0.x API so task libraries can share one task registry
+  when upgrading to crate-derived task namespaces.
+
+### v0.2.3
+
+- Extract and update release sections using parsed Markdown headings.
+<!-- bake-readme:releases:end -->
+
+## See Also
+
+- [bake-releases](https://github.com/socketry/bake-releases-rust) — Reusable releases.md tasks for Bake <!-- bake-readme:package -->
