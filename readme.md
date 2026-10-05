@@ -42,6 +42,10 @@ Prepare a release with `cargo bake cargo:version:patch` (or `minor`, `major`, or
 
 See [releases.md](releases.md) for the full release history.
 
+### v0.3.4
+
+- Clarify root task exports, installation, and the shared release process.
+
 ### v0.3.3
 
 - Resolve development task dependencies to the current checkout.
@@ -54,10 +58,6 @@ See [releases.md](releases.md) for the full release history.
 
 - Require Bake 0.18 or newer so task libraries share their project's active task registry.
 - Document shared agent context setup and contribution guidance.
-
-### v0.3.1
-
-- Require Bake 0.18.0 for the shared task registry.
 
 <!-- bake-readme:releases:end -->
 

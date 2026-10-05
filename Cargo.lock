@@ -105,7 +105,7 @@ dependencies = [
 
 [[package]]
 name = "bake-releases"
-version = "0.3.3"
+version = "0.3.4"
 dependencies = [
  "bake",
  "socketry-markdown 0.1.0",
